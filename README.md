@@ -40,7 +40,8 @@ and the implementation in [jtebbens/com.homewizard](https://github.com/jtebbens/
 The live sensor updates **every second** via the tsdb WebSocket stream; the state
 sensors update when the cloud pushes deltas (1s) or full states (40s). The
 *WebSocket verbinding* binary sensor shows `Connected`/`Disconnected` based on
-the cloud stream state.
+both streams and exposes `main_stream_connected` and
+`realtime_stream_connected` attributes for troubleshooting.
 
 ## Development
 

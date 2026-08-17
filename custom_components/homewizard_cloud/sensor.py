@@ -92,7 +92,6 @@ class HomeWizardCloudSensor(CoordinatorEntity, SensorEntity):
 
 class HomeWizardRealtimePowerSensor(HomeWizardCloudSensor):
     """Second-by-second live power from the tsdb stream."""
-    _attr_entity_category = EntityCategory.DIAGNOSTIC
 
     _attr_name = "Live vermogen"
     _attr_native_unit_of_measurement = UnitOfPower.WATT
@@ -237,7 +236,7 @@ class HomeWizardCurrentSensor(HomeWizardCloudSensor):
 
 
 class HomeWizardImportSensor(HomeWizardCloudSensor):
-    """Energy imported (tariff 1+2)."""
+    """Energy imported or exported for one tariff."""
 
     _attr_name = "Import energie"
     _attr_native_unit_of_measurement = UnitOfEnergy.KILO_WATT_HOUR
@@ -245,11 +244,26 @@ class HomeWizardImportSensor(HomeWizardCloudSensor):
     _attr_state_class = SensorStateClass.TOTAL_INCREASING
     _attr_icon = "mdi:transmission-tower-import"
 
-    def __init__(self, coordinator, entry, key: str, tariff: str) -> None:
+    def __init__(
+        self,
+        coordinator,
+        entry,
+        key: str,
+        tariff: str,
+        is_export: bool = False,
+    ) -> None:
         """Initialize the sensor."""
         super().__init__(coordinator, entry)
         self._key = key
         self._tariff = tariff
+        self._is_export = is_export
+        direction = "Export" if is_export else "Import"
+        self._attr_name = f"{direction} energie tarief {tariff}"
+        self._attr_icon = (
+            "mdi:transmission-tower-export"
+            if is_export
+            else "mdi:transmission-tower-import"
+        )
         self._attr_unique_id = f"{entry.entry_id}_{key}"
 
     @property
@@ -259,8 +273,8 @@ class HomeWizardImportSensor(HomeWizardCloudSensor):
 
     @property
     def extra_state_attributes(self) -> dict:
-        """Return the tariff."""
-        return {"tariff": self._tariff}
+        """Return the tariff and energy direction."""
+        return {"tariff": self._tariff, "direction": "export" if self._is_export else "import"}
 
 
 # === TARIFF / GAS SENSORS ===
@@ -399,6 +413,8 @@ class HomeWizardOnlineSensor(HomeWizardCloudSensor):
     def native_value(self) -> str | None:
         """Return the online status."""
         online = self._state.get(ATTR_ONLINE)
+        if online is None:
+            return None
         return "Online" if online else "Offline"
 
 
@@ -407,7 +423,7 @@ class HomeWizardWifiSensor(HomeWizardCloudSensor):
     _attr_entity_category = EntityCategory.DIAGNOSTIC
 
     _attr_name = "WiFi signaal"
-    _attr_native_unit_of_measurement = UnitOfRatio.PERCENT
+    _attr_native_unit_of_measurement = UnitOfRatio.PERCENTAGE
     _attr_state_class = SensorStateClass.MEASUREMENT
     _attr_icon = "mdi:wifi"
 
@@ -437,8 +453,8 @@ async def async_setup_entry(
         HomeWizardTariffSensor(coordinator, entry),
         HomeWizardImportSensor(coordinator, entry, ATTR_IMPORT_T1, "1"),
         HomeWizardImportSensor(coordinator, entry, ATTR_IMPORT_T2, "2"),
-        HomeWizardImportSensor(coordinator, entry, ATTR_EXPORT_T1, "1"),
-        HomeWizardImportSensor(coordinator, entry, ATTR_EXPORT_T2, "2"),
+        HomeWizardImportSensor(coordinator, entry, ATTR_EXPORT_T1, "1", True),
+        HomeWizardImportSensor(coordinator, entry, ATTR_EXPORT_T2, "2", True),
         HomeWizardGasSensor(coordinator, entry),
         HomeWizardGasTimestampSensor(coordinator, entry),
         HomeWizardPeakSensor(coordinator, entry),

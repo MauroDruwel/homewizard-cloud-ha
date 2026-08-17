@@ -5,7 +5,7 @@ import logging
 from typing import Any
 
 import voluptuous as vol
-from homeassistant.config_entries import ConfigEntry, ConfigFlow
+from homeassistant.config_entries import ConfigEntry, ConfigFlow, OptionsFlow
 from homeassistant.core import callback
 from homeassistant.data_entry_flow import FlowResult
 from homeassistant.helpers.selector import (
@@ -112,12 +112,12 @@ class HomeWizardCloudConfigFlow(ConfigFlow, domain=DOMAIN):
 
     @staticmethod
     @callback
-    def async_get_options_flow(config_entry: ConfigEntry) -> ConfigFlow:
+    def async_get_options_flow(config_entry: ConfigEntry) -> OptionsFlow:
         """Return the options flow (none for now)."""
         return HomeWizardCloudOptionsFlow()
 
 
-class HomeWizardCloudOptionsFlow(ConfigFlow):
+class HomeWizardCloudOptionsFlow(OptionsFlow):
     """Placeholder options flow."""
 
     async def async_step_init(self, user_input: dict[str, Any] | None = None) -> FlowResult:

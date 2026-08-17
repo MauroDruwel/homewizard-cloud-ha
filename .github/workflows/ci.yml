@@ -26,6 +26,7 @@ jobs:
           python -m py_compile custom_components/homewizard_cloud/config_flow.py
           python -m py_compile custom_components/homewizard_cloud/coordinator.py
           python -m py_compile custom_components/homewizard_cloud/sensor.py
+          python -m py_compile custom_components/homewizard_cloud/binary_sensor.py
           python -m py_compile custom_components/homewizard_cloud/const.py
 
       - name: Check JSON syntax
@@ -58,3 +59,30 @@ jobs:
 
       - name: Lint
         run: ruff check custom_components/
+
+  runtime-import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.14"
+
+      - name: Install Home Assistant and library dependency
+        run: pip install homeassistant "homewizard-cloud>=1.0.2"
+
+      - name: Import every platform against Home Assistant
+        env:
+          PYTHONPATH: .
+        run: |
+          python - <<'PY'
+          from homeassistant.const import UnitOfRatio
+
+          assert UnitOfRatio.PERCENTAGE
+          import custom_components.homewizard_cloud.binary_sensor
+          import custom_components.homewizard_cloud.config_flow
+          import custom_components.homewizard_cloud.coordinator
+          import custom_components.homewizard_cloud.sensor
+          PY

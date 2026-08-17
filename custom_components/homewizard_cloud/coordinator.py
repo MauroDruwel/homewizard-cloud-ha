@@ -29,13 +29,20 @@ class HomeWizardCloudCoordinator(DataUpdateCoordinator[dict]):
         device_id: str,
     ) -> None:
         """Initialize the coordinator."""
-        super().__init__(hass, _LOGGER, name=DOMAIN, update_interval=None)
+        super().__init__(
+            hass,
+            _LOGGER,
+            config_entry=entry,
+            name=DOMAIN,
+            update_interval=None,
+        )
 
         self.entry = entry
         self.client = client
         self.device_id = device_id
         self.last_update_time: datetime | None = None
         self.connected: bool = False
+        self.realtime_connected: bool = False
 
         self.data = {"state": {}, "realtime_w": None}
         self._listen_task: asyncio.Task | None = None
@@ -45,20 +52,34 @@ class HomeWizardCloudCoordinator(DataUpdateCoordinator[dict]):
         if self._listen_task is not None and not self._listen_task.done():
             return
 
+        self.async_set_updated_data(self.data)
+
         async def _on_state(_device_id: str, state: dict) -> None:
-            self.data["state"] = state
+            self.async_set_updated_data({**self.data, "state": state})
             self.last_update_time = dt_util.now()
-            self.async_update_listeners()
 
         async def _on_realtime(measurement: RealtimeMeasurement) -> None:
-            self.data["realtime_w"] = measurement.wattage
-            self.data["realtime_wattages"] = measurement.wattages
-            self.async_update_listeners()
+            self.async_set_updated_data(
+                {
+                    **self.data,
+                    "realtime_w": measurement.wattage,
+                    "realtime_wattages": measurement.wattages,
+                }
+            )
 
         async def _on_connection(connected: bool) -> None:
             self.connected = connected
             _LOGGER.info(
                 "WebSocket %s for device %s",
+                "connected" if connected else "disconnected",
+                self.device_id,
+            )
+            self.async_update_listeners()
+
+        async def _on_realtime_connection(connected: bool) -> None:
+            self.realtime_connected = connected
+            _LOGGER.info(
+                "Realtime WebSocket %s for device %s",
                 "connected" if connected else "disconnected",
                 self.device_id,
             )
@@ -70,6 +91,7 @@ class HomeWizardCloudCoordinator(DataUpdateCoordinator[dict]):
                 on_state=_on_state,
                 on_realtime=_on_realtime,
                 on_connection=_on_connection,
+                on_realtime_connection=_on_realtime_connection,
             ),
             name=f"{DOMAIN}_listen_{self.device_id}",
         )

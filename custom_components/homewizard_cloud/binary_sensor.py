@@ -8,7 +8,7 @@ from homeassistant.components.binary_sensor import (
     BinarySensorEntity,
 )
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers.entity import DeviceInfo
+from homeassistant.helpers.entity import DeviceInfo, EntityCategory
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -33,6 +33,7 @@ class HomeWizardConnectionSensor(CoordinatorEntity, BinarySensorEntity):
     """WebSocket connection status for the P1 meter."""
 
     _attr_has_entity_name = True
+    _attr_entity_category = EntityCategory.DIAGNOSTIC
     _attr_name = "WebSocket verbinding"
     _attr_device_class = BinarySensorDeviceClass.CONNECTIVITY
     _attr_icon = "mdi:connection"
@@ -56,4 +57,12 @@ class HomeWizardConnectionSensor(CoordinatorEntity, BinarySensorEntity):
     @property
     def is_on(self) -> bool:
         """Return the connection state."""
-        return self.coordinator.connected
+        return self.coordinator.connected and self.coordinator.realtime_connected
+
+    @property
+    def extra_state_attributes(self) -> dict[str, bool]:
+        """Return the individual WebSocket connection states."""
+        return {
+            "main_stream_connected": self.coordinator.connected,
+            "realtime_stream_connected": self.coordinator.realtime_connected,
+        }
