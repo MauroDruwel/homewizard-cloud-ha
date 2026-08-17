@@ -43,17 +43,18 @@ class HomeWizardCloudConfigFlow(ConfigFlow, domain=DOMAIN):
             try:
                 from homewizard_cloud import HomeWizardCloudClient
 
-                def _test_login() -> list[dict[str, str]]:
+                async def _list_devices() -> list[dict[str, str]]:
                     client = HomeWizardCloudClient(email=self.email, password=self.password)
                     try:
+                        devices = await client.get_p1_devices()
                         return [
                             {"device_id": d.device_id, "name": d.name}
-                            for d in client.get_p1_devices()
+                            for d in devices
                         ]
                     finally:
                         client.close()
 
-                self.devices = await self.hass.async_add_executor_job(_test_login)
+                self.devices = await _list_devices()
             except Exception as err:  # noqa: BLE001
                 _LOGGER.warning("Login test failed: %s", err)
                 errors["base"] = "invalid_auth"

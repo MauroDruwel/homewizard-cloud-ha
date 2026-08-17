@@ -17,7 +17,7 @@ from homeassistant.const import (
     UnitOfVolume,
 )
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers.entity import DeviceInfo
+from homeassistant.helpers.entity import DeviceInfo, EntityCategory
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -92,6 +92,7 @@ class HomeWizardCloudSensor(CoordinatorEntity, SensorEntity):
 
 class HomeWizardRealtimePowerSensor(HomeWizardCloudSensor):
     """Second-by-second live power from the tsdb stream."""
+    _attr_entity_category = EntityCategory.DIAGNOSTIC
 
     _attr_name = "Live vermogen"
     _attr_native_unit_of_measurement = UnitOfPower.WATT
@@ -305,6 +306,7 @@ class HomeWizardGasSensor(HomeWizardCloudSensor):
 
 class HomeWizardGasTimestampSensor(HomeWizardCloudSensor):
     """Timestamp of the last gas reading."""
+    _attr_entity_category = EntityCategory.DIAGNOSTIC
 
     _attr_name = "Gas laatst gelezen"
     _attr_icon = "mdi:clock-outline"
@@ -325,6 +327,7 @@ class HomeWizardGasTimestampSensor(HomeWizardCloudSensor):
 
 class HomeWizardPeakSensor(HomeWizardCloudSensor):
     """Monthly power peak."""
+    _attr_entity_category = EntityCategory.DIAGNOSTIC
 
     _attr_name = "Maandpiek"
     _attr_native_unit_of_measurement = UnitOfPower.WATT
@@ -352,6 +355,7 @@ class HomeWizardPeakSensor(HomeWizardCloudSensor):
 
 class HomeWizardPowerFailSensor(HomeWizardCloudSensor):
     """Power fail counters."""
+    _attr_entity_category = EntityCategory.DIAGNOSTIC
 
     _attr_name = "Stroomuitval"
     _attr_icon = "mdi:power-plug-off"
@@ -381,6 +385,7 @@ class HomeWizardPowerFailSensor(HomeWizardCloudSensor):
 
 class HomeWizardOnlineSensor(HomeWizardCloudSensor):
     """Device online status."""
+    _attr_entity_category = EntityCategory.DIAGNOSTIC
 
     _attr_name = "Online"
     _attr_icon = "mdi:cloud-check"
@@ -399,6 +404,7 @@ class HomeWizardOnlineSensor(HomeWizardCloudSensor):
 
 class HomeWizardWifiSensor(HomeWizardCloudSensor):
     """WiFi signal strength."""
+    _attr_entity_category = EntityCategory.DIAGNOSTIC
 
     _attr_name = "WiFi signaal"
     _attr_native_unit_of_measurement = UnitOfRatio.PERCENT

@@ -8,7 +8,7 @@ from homeassistant.core import HomeAssistant
 from .const import CONF_EMAIL, CONF_PASSWORD
 from .coordinator import HomeWizardCloudCoordinator
 
-PLATFORMS = [Platform.SENSOR]
+PLATFORMS = [Platform.BINARY_SENSOR, Platform.SENSOR]
 
 type HomeWizardCloudConfigEntry = ConfigEntry[HomeWizardCloudCoordinator]
 

@@ -35,6 +35,7 @@ class HomeWizardCloudCoordinator(DataUpdateCoordinator[dict]):
         self.client = client
         self.device_id = device_id
         self.last_update_time: datetime | None = None
+        self.connected: bool = False
 
         self.data = {"state": {}, "realtime_w": None}
         self._listen_task: asyncio.Task | None = None
@@ -54,11 +55,21 @@ class HomeWizardCloudCoordinator(DataUpdateCoordinator[dict]):
             self.data["realtime_wattages"] = measurement.wattages
             self.async_update_listeners()
 
+        async def _on_connection(connected: bool) -> None:
+            self.connected = connected
+            _LOGGER.info(
+                "WebSocket %s for device %s",
+                "connected" if connected else "disconnected",
+                self.device_id,
+            )
+            self.async_update_listeners()
+
         self._listen_task = self.hass.async_create_task(
             self.client.listen(
                 self.device_id,
                 on_state=_on_state,
                 on_realtime=_on_realtime,
+                on_connection=_on_connection,
             ),
             name=f"{DOMAIN}_listen_{self.device_id}",
         )
