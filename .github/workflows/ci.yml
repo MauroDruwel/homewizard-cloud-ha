@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Validate manifest.json with hassfest
+        uses: home-assistant/actions/hassfest@master
+
+      - name: Check Python syntax
+        run: |
+          python -m py_compile custom_components/homewizard_cloud/__init__.py
+          python -m py_compile custom_components/homewizard_cloud/config_flow.py
+          python -m py_compile custom_components/homewizard_cloud/coordinator.py
+          python -m py_compile custom_components/homewizard_cloud/sensor.py
+          python -m py_compile custom_components/homewizard_cloud/const.py
+
+      - name: Check JSON syntax
+        run: |
+          python -m json.tool custom_components/homewizard_cloud/manifest.json > /dev/null
+          python -m json.tool custom_components/homewizard_cloud/translations/en.json > /dev/null
+          python -m json.tool custom_components/homewizard_cloud/translations/nl.json > /dev/null
+          python -m json.tool hacs.json > /dev/null
+
+      - name: Verify manifest version
+        run: |
+          VERSION=$(grep '"version"' custom_components/homewizard_cloud/manifest.json | sed 's/.*: "\(.*\)".*/\1/')
+          echo "Manifest version: $VERSION"
+          if ! git tag --points-at HEAD | grep -q "^v$VERSION$"; then
+            echo "Tag v$VERSION not found for this commit" 
+          fi
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install ruff
+        run: pip install ruff
+
+      - name: Lint
+        run: ruff check custom_components/

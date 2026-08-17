@@ -1,0 +1,12 @@
+{
+  "domain": "homewizard_cloud",
+  "name": "HomeWizard Cloud",
+  "codeowners": ["@MauroDruwel"],
+  "config_flow": true,
+  "documentation": "https://github.com/MauroDruwel/homewizard-cloud-ha",
+  "integration_type": "service",
+  "iot_class": "cloud_push",
+  "issue_tracker": "https://github.com/MauroDruwel/homewizard-cloud-ha/issues",
+  "requirements": ["homewizard-cloud>=0.1.0"],
+  "version": "0.1.0"
+}

@@ -1,0 +1,25 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "HomeWizard Cloud",
+        "description": "Log in met je HomeWizard account om je P1 meter vanuit de cloud te streamen.",
+        "data": {
+          "email": "E-mail",
+          "password": "Wachtwoord"
+        }
+      },
+      "device": {
+        "title": "Selecteer P1 meter",
+        "description": "Kies de P1 meter die je wilt toevoegen.",
+        "data": {
+          "device": "P1 meter"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Ongeldige inloggegevens",
+      "no_devices": "Geen P1 meters gevonden op dit account"
+    }
+  }
+}

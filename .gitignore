@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.egg
+*.pyo
+*.pyd
+*.pdb
+*.so
+*.log
+*.sqlite3
+*.db
+
+# VSCode
+.vscode/
+
+# Home Assistant
+home-assistant.log
+home-assistant_v2.db
+*.db-shm
+*.db-wal
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.venv/
+venv/
+ENV/
+
+# Test/coverage
+.coverage
+htmlcov/
+.tox/
