@@ -1,5 +1,9 @@
 # HomeWizard Cloud
 
+[![HACS Badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://github.com/hacs/default)
+[![Validate](https://github.com/MauroDruwel/homewizard-cloud-ha/actions/workflows/validate.yml/badge.svg)](https://github.com/MauroDruwel/homewizard-cloud-ha/actions/workflows/validate.yml)
+[![Tests](https://github.com/MauroDruwel/homewizard-cloud-ha/actions/workflows/tests.yml/badge.svg)](https://github.com/MauroDruwel/homewizard-cloud-ha/actions/workflows/tests.yml)
+
 Home Assistant integration for streaming your **HomeWizard P1 meter from the cloud**
 over WebSocket — no local device access needed. Works anywhere your Home Assistant
 has internet.
