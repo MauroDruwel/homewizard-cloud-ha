@@ -13,6 +13,7 @@ from custom_components.homewizard_cloud.const import (
     DOMAIN,
 )
 
+
 @pytest.fixture(autouse=True)
 def auto_enable_custom_integrations(
     enable_custom_integrations: None,
