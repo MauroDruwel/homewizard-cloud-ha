@@ -9,11 +9,11 @@ from homeassistant.components.sensor import (
     SensorStateClass,
 )
 from homeassistant.const import (
+    PERCENTAGE,
     UnitOfElectricCurrent,
     UnitOfElectricPotential,
     UnitOfEnergy,
     UnitOfPower,
-    UnitOfRatio,
     UnitOfVolume,
 )
 from homeassistant.core import HomeAssistant
@@ -423,7 +423,7 @@ class HomeWizardWifiSensor(HomeWizardCloudSensor):
     _attr_entity_category = EntityCategory.DIAGNOSTIC
 
     _attr_name = "WiFi signaal"
-    _attr_native_unit_of_measurement = UnitOfRatio.PERCENTAGE
+    _attr_native_unit_of_measurement = PERCENTAGE
     _attr_state_class = SensorStateClass.MEASUREMENT
     _attr_icon = "mdi:wifi"
 

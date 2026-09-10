@@ -44,10 +44,10 @@ async def test_flow_user_success(hass: HomeAssistant) -> None:
 
         result3 = await hass.config_entries.flow.async_configure(
             result2["flow_id"],
-            {"device_id": "hw_123"},
+            {"device": "hw_123"},
         )
         assert result3["type"] is FlowResultType.CREATE_ENTRY
-        assert result3["title"] == "My P1 Meter"
+        assert result3["title"] == "P1 Meter (hw_123)"
         assert result3["data"]["device_id"] == "hw_123"
 
 
