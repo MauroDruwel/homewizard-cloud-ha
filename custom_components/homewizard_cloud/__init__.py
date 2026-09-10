@@ -1,4 +1,5 @@
 """HomeWizard Cloud integration for Home Assistant."""
+
 from __future__ import annotations
 
 from homeassistant.config_entries import ConfigEntry
@@ -13,7 +14,9 @@ PLATFORMS = [Platform.BINARY_SENSOR, Platform.SENSOR]
 type HomeWizardCloudConfigEntry = ConfigEntry[HomeWizardCloudCoordinator]
 
 
-async def async_setup_entry(hass: HomeAssistant, entry: HomeWizardCloudConfigEntry) -> bool:
+async def async_setup_entry(
+    hass: HomeAssistant, entry: HomeWizardCloudConfigEntry
+) -> bool:
     """Set up HomeWizard Cloud from a config entry."""
     from homewizard_cloud import HomeWizardCloudClient
 
@@ -38,6 +41,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: HomeWizardCloudConfigEnt
     return True
 
 
-async def async_unload_entry(hass: HomeAssistant, entry: HomeWizardCloudConfigEntry) -> bool:
+async def async_unload_entry(
+    hass: HomeAssistant, entry: HomeWizardCloudConfigEntry
+) -> bool:
     """Unload a config entry."""
     return await hass.config_entries.async_unload_platforms(entry, PLATFORMS)

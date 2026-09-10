@@ -1,4 +1,5 @@
 """Sensor platform for HomeWizard Cloud integration."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -274,7 +275,10 @@ class HomeWizardImportSensor(HomeWizardCloudSensor):
     @property
     def extra_state_attributes(self) -> dict:
         """Return the tariff and energy direction."""
-        return {"tariff": self._tariff, "direction": "export" if self._is_export else "import"}
+        return {
+            "tariff": self._tariff,
+            "direction": "export" if self._is_export else "import",
+        }
 
 
 # === TARIFF / GAS SENSORS ===
@@ -320,6 +324,7 @@ class HomeWizardGasSensor(HomeWizardCloudSensor):
 
 class HomeWizardGasTimestampSensor(HomeWizardCloudSensor):
     """Timestamp of the last gas reading."""
+
     _attr_entity_category = EntityCategory.DIAGNOSTIC
 
     _attr_name = "Gas laatst gelezen"
@@ -341,6 +346,7 @@ class HomeWizardGasTimestampSensor(HomeWizardCloudSensor):
 
 class HomeWizardPeakSensor(HomeWizardCloudSensor):
     """Monthly power peak."""
+
     _attr_entity_category = EntityCategory.DIAGNOSTIC
 
     _attr_name = "Maandpiek"
@@ -369,6 +375,7 @@ class HomeWizardPeakSensor(HomeWizardCloudSensor):
 
 class HomeWizardPowerFailSensor(HomeWizardCloudSensor):
     """Power fail counters."""
+
     _attr_entity_category = EntityCategory.DIAGNOSTIC
 
     _attr_name = "Stroomuitval"
@@ -399,6 +406,7 @@ class HomeWizardPowerFailSensor(HomeWizardCloudSensor):
 
 class HomeWizardOnlineSensor(HomeWizardCloudSensor):
     """Device online status."""
+
     _attr_entity_category = EntityCategory.DIAGNOSTIC
 
     _attr_name = "Online"
@@ -420,6 +428,7 @@ class HomeWizardOnlineSensor(HomeWizardCloudSensor):
 
 class HomeWizardWifiSensor(HomeWizardCloudSensor):
     """WiFi signal strength."""
+
     _attr_entity_category = EntityCategory.DIAGNOSTIC
 
     _attr_name = "WiFi signaal"

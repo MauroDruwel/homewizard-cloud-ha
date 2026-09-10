@@ -1,4 +1,5 @@
 """Fixtures for HomeWizard Cloud tests."""
+
 from __future__ import annotations
 
 from collections.abc import Generator
@@ -44,17 +45,19 @@ def mock_homewizard_client() -> Generator[MagicMock]:
     with patch("homewizard_cloud.HomeWizardCloudClient") as mock_cls:
         client = MagicMock()
         client.close.return_value = None
-        
+
         device_mock = MagicMock()
         device_mock.device_id = "hw_p1_12345"
         device_mock.name = "HomeWizard P1 Meter"
-        
+
         client.get_p1_devices = AsyncMock(return_value=[device_mock])
-        client.get_p1_state = AsyncMock(return_value={
-            "active_power_w": 350.0,
-            "total_power_import_t1_kwh": 1250.5,
-            "total_power_export_t1_kwh": 450.2,
-            "online": True,
-        })
+        client.get_p1_state = AsyncMock(
+            return_value={
+                "active_power_w": 350.0,
+                "total_power_import_t1_kwh": 1250.5,
+                "total_power_export_t1_kwh": 450.2,
+                "online": True,
+            }
+        )
         mock_cls.return_value = client
         yield client

@@ -1,4 +1,5 @@
 """Tests for the HomeWizard Cloud config flow."""
+
 from __future__ import annotations
 
 from unittest.mock import AsyncMock, MagicMock, patch

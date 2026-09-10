@@ -1,4 +1,5 @@
 """WebSocket push coordinator for HomeWizard Cloud."""
+
 from __future__ import annotations
 
 import asyncio

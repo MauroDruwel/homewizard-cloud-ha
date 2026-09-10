@@ -1,4 +1,5 @@
 """Config flow for HomeWizard Cloud integration."""
+
 from __future__ import annotations
 
 import logging
@@ -44,12 +45,13 @@ class HomeWizardCloudConfigFlow(ConfigFlow, domain=DOMAIN):
                 from homewizard_cloud import HomeWizardCloudClient
 
                 async def _list_devices() -> list[dict[str, str]]:
-                    client = HomeWizardCloudClient(email=self.email, password=self.password)
+                    client = HomeWizardCloudClient(
+                        email=self.email, password=self.password
+                    )
                     try:
                         devices = await client.get_p1_devices()
                         return [
-                            {"device_id": d.device_id, "name": d.name}
-                            for d in devices
+                            {"device_id": d.device_id, "name": d.name} for d in devices
                         ]
                     finally:
                         client.close()
@@ -120,6 +122,8 @@ class HomeWizardCloudConfigFlow(ConfigFlow, domain=DOMAIN):
 class HomeWizardCloudOptionsFlow(OptionsFlow):
     """Placeholder options flow."""
 
-    async def async_step_init(self, user_input: dict[str, Any] | None = None) -> FlowResult:
+    async def async_step_init(
+        self, user_input: dict[str, Any] | None = None
+    ) -> FlowResult:
         """No options are configurable yet."""
         return self.async_create_entry(data=user_input or {})
