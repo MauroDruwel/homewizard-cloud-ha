@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+import contextlib
 import logging
 from datetime import datetime
 
@@ -103,10 +104,8 @@ class HomeWizardCloudCoordinator(DataUpdateCoordinator[dict]):
         if self._listen_task is not None:
             if not self._listen_task.done():
                 self._listen_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self._listen_task
-            except asyncio.CancelledError:
-                pass
             self._listen_task = None
 
     @property
