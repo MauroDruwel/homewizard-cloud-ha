@@ -10,16 +10,28 @@
         }
       },
       "device": {
-        "title": "Selecteer P1 meter",
+        "title": "Select P1 meter",
         "description": "Choose the P1 meter you want to add.",
         "data": {
           "device": "P1 meter"
         }
+      },
+      "reauth_confirm": {
+        "title": "Reauthenticate HomeWizard Cloud",
+        "description": "Please enter the new password for account {email}.",
+        "data": {
+          "password": "Password"
+        }
       }
     },
     "error": {
-      "invalid_auth": "Invalid credentials",
+      "cannot_connect": "Failed to connect to HomeWizard Cloud. Check your network connection.",
+      "invalid_auth": "Invalid email or password",
       "no_devices": "No P1 meters found on this account"
+    },
+    "abort": {
+      "already_configured": "This device is already configured.",
+      "reauth_successful": "Re-authentication was successful."
     }
   }
 }

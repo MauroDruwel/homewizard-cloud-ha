@@ -5,6 +5,7 @@ from __future__ import annotations
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
+from homeassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 
 from .const import CONF_EMAIL, CONF_PASSWORD
 from .coordinator import HomeWizardCloudCoordinator
@@ -19,11 +20,21 @@ async def async_setup_entry(
 ) -> bool:
     """Set up HomeWizard Cloud from a config entry."""
     from homewizard_cloud import HomeWizardCloudClient
+    from homewizard_cloud.exceptions import APIError, AuthenticationError
 
     client = HomeWizardCloudClient(
         email=entry.data[CONF_EMAIL],
         password=entry.data[CONF_PASSWORD],
     )
+
+    try:
+        await client.authenticate()
+    except AuthenticationError as err:
+        client.close()
+        raise ConfigEntryAuthFailed(err) from err
+    except (APIError, OSError) as err:
+        client.close()
+        raise ConfigEntryNotReady(f"Could not reach HomeWizard Cloud: {err}") from err
 
     coordinator = HomeWizardCloudCoordinator(
         hass,

@@ -45,6 +45,7 @@ def mock_homewizard_client() -> Generator[MagicMock]:
     with patch("homewizard_cloud.HomeWizardCloudClient") as mock_cls:
         client = MagicMock()
         client.close.return_value = None
+        client.authenticate = AsyncMock(return_value="mock_token")
 
         device_mock = MagicMock()
         device_mock.device_id = "hw_p1_12345"

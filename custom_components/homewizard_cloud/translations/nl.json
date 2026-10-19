@@ -15,11 +15,23 @@
         "data": {
           "device": "P1 meter"
         }
+      },
+      "reauth_confirm": {
+        "title": "HomeWizard Cloud opnieuw verifiëren",
+        "description": "Voer het nieuwe wachtwoord in voor account {email}.",
+        "data": {
+          "password": "Wachtwoord"
+        }
       }
     },
     "error": {
+      "cannot_connect": "Kan geen verbinding maken met HomeWizard Cloud. Controleer je netwerk.",
       "invalid_auth": "Ongeldige inloggegevens",
       "no_devices": "Geen P1 meters gevonden op dit account"
+    },
+    "abort": {
+      "already_configured": "Dit apparaat is al geconfigureerd.",
+      "reauth_successful": "Herauthenticatie geslaagd."
     }
   }
 }
