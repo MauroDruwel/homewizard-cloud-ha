@@ -51,3 +51,28 @@ async def test_setup_connection_failure(
     await hass.async_block_till_done()
 
     assert mock_config_entry.state is ConfigEntryState.SETUP_RETRY
+
+
+async def test_coordinator_auth_failure_triggers_reauth(
+    hass: HomeAssistant, mock_homewizard_client: MagicMock, mock_config_entry
+) -> None:
+    """When stream reports auth failure, coordinator starts reauth flow."""
+    from unittest.mock import patch
+
+    captured_callbacks = {}
+
+    async def mock_listen(*args, **kwargs):
+        captured_callbacks.update(kwargs)
+
+    mock_homewizard_client.listen = mock_listen
+    mock_config_entry.add_to_hass(hass)
+
+    with patch.object(mock_config_entry, "async_start_reauth") as mock_start_reauth:
+        assert await hass.config_entries.async_setup(mock_config_entry.entry_id)
+        await hass.async_block_till_done()
+
+        assert "on_auth_failed" in captured_callbacks
+        await captured_callbacks["on_auth_failed"]()
+        await hass.async_block_till_done()
+
+        mock_start_reauth.assert_called_once_with(hass)

@@ -19,12 +19,15 @@ async def async_setup_entry(
     hass: HomeAssistant, entry: HomeWizardCloudConfigEntry
 ) -> bool:
     """Set up HomeWizard Cloud from a config entry."""
+    from homeassistant.util.ssl import get_default_context
+
     from homewizard_cloud import HomeWizardCloudClient
     from homewizard_cloud.exceptions import APIError, AuthenticationError
 
     client = HomeWizardCloudClient(
         email=entry.data[CONF_EMAIL],
         password=entry.data[CONF_PASSWORD],
+        ssl=get_default_context(),
     )
 
     try:

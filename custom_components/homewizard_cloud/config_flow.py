@@ -43,12 +43,16 @@ class HomeWizardCloudConfigFlow(ConfigFlow, domain=DOMAIN):
             self.password = user_input[CONF_PASSWORD]
 
             try:
+                from homeassistant.util.ssl import get_default_context
+
                 from homewizard_cloud import HomeWizardCloudClient
                 from homewizard_cloud.exceptions import AuthenticationError
 
                 async def _list_devices() -> list[dict[str, str]]:
                     client = HomeWizardCloudClient(
-                        email=self.email, password=self.password
+                        email=self.email,
+                        password=self.password,
+                        ssl=get_default_context(),
                     )
                     try:
                         devices = await client.get_p1_devices()
@@ -135,10 +139,16 @@ class HomeWizardCloudConfigFlow(ConfigFlow, domain=DOMAIN):
             password = user_input[CONF_PASSWORD]
 
             try:
+                from homeassistant.util.ssl import get_default_context
+
                 from homewizard_cloud import HomeWizardCloudClient
                 from homewizard_cloud.exceptions import AuthenticationError
 
-                client = HomeWizardCloudClient(email=email, password=password)
+                client = HomeWizardCloudClient(
+                    email=email,
+                    password=password,
+                    ssl=get_default_context(),
+                )
                 try:
                     await client.authenticate()
                 finally:
