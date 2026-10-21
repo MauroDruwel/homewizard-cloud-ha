@@ -158,6 +158,7 @@ class HomeWizardPhasePowerSensor(HomeWizardCloudSensor):
         super().__init__(coordinator, entry)
         self._phase = phase
         self._key = key
+        self._attr_name = f"Vermogen fase {phase}"
         self._attr_unique_id = f"{entry.entry_id}_power_l{phase}"
 
     @property
@@ -203,6 +204,7 @@ class HomeWizardVoltageSensor(HomeWizardCloudSensor):
         super().__init__(coordinator, entry)
         self._phase = phase
         self._key = key
+        self._attr_name = f"Spanning fase {phase}"
         self._attr_unique_id = f"{entry.entry_id}_voltage_l{phase}"
 
     @property
@@ -225,6 +227,7 @@ class HomeWizardCurrentSensor(HomeWizardCloudSensor):
         super().__init__(coordinator, entry)
         self._phase = phase
         self._key = key
+        self._attr_name = f"Stroom fase {phase}"
         self._attr_unique_id = f"{entry.entry_id}_current_l{phase}"
 
     @property
