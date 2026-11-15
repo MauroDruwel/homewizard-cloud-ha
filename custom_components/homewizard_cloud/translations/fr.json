@@ -1,0 +1,91 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "HomeWizard Cloud",
+        "description": "Connectez-vous avec votre compte HomeWizard pour récupérer les données de votre compteur P1 depuis le cloud.",
+        "data": {
+          "email": "E-mail",
+          "password": "Mot de passe"
+        }
+      },
+      "device": {
+        "title": "Sélectionner le compteur P1",
+        "description": "Choisissez le compteur P1 que vous souhaitez ajouter.",
+        "data": {
+          "device": "Compteur P1"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Réauthentifier HomeWizard Cloud",
+        "description": "Veuillez saisir le nouveau mot de passe du compte {email}.",
+        "data": {
+          "password": "Mot de passe"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Impossible de se connecter à HomeWizard Cloud. Vérifiez votre connexion réseau.",
+      "invalid_auth": "E-mail ou mot de passe invalide",
+      "no_devices": "Aucun compteur P1 trouvé sur ce compte"
+    },
+    "abort": {
+      "already_configured": "Cet appareil est déjà configuré.",
+      "reauth_successful": "Réauthentification réussie."
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "websocket_connection": {
+        "name": "Connexion WebSocket"
+      }
+    },
+    "sensor": {
+      "realtime_power": {
+        "name": "Puissance en direct"
+      },
+      "power": {
+        "name": "Puissance"
+      },
+      "power_phase": {
+        "name": "Puissance phase {phase}"
+      },
+      "average_power": {
+        "name": "Puissance moyenne"
+      },
+      "voltage_phase": {
+        "name": "Tension phase {phase}"
+      },
+      "current_phase": {
+        "name": "Courant phase {phase}"
+      },
+      "import_energy": {
+        "name": "Énergie importée tarif {tariff}"
+      },
+      "export_energy": {
+        "name": "Énergie exportée tarif {tariff}"
+      },
+      "active_tariff": {
+        "name": "Tarif actif"
+      },
+      "gas": {
+        "name": "Gaz"
+      },
+      "gas_timestamp": {
+        "name": "Gaz dernière lecture"
+      },
+      "monthly_peak": {
+        "name": "Pic mensuel"
+      },
+      "power_fail": {
+        "name": "Coupures de courant"
+      },
+      "online": {
+        "name": "En ligne"
+      },
+      "wifi_strength": {
+        "name": "Signal WiFi"
+      }
+    }
+  }
+}

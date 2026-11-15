@@ -94,7 +94,7 @@ class HomeWizardCloudSensor(CoordinatorEntity, SensorEntity):
 class HomeWizardRealtimePowerSensor(HomeWizardCloudSensor):
     """Second-by-second live power from the tsdb stream."""
 
-    _attr_name = "Live vermogen"
+    _attr_translation_key = "realtime_power"
     _attr_native_unit_of_measurement = UnitOfPower.WATT
     _attr_device_class = SensorDeviceClass.POWER
     _attr_state_class = SensorStateClass.MEASUREMENT
@@ -127,7 +127,7 @@ class HomeWizardRealtimePowerSensor(HomeWizardCloudSensor):
 class HomeWizardPowerSensor(HomeWizardCloudSensor):
     """Total active power (cloud average)."""
 
-    _attr_name = "Vermogen"
+    _attr_translation_key = "power"
     _attr_native_unit_of_measurement = UnitOfPower.WATT
     _attr_device_class = SensorDeviceClass.POWER
     _attr_state_class = SensorStateClass.MEASUREMENT
@@ -147,7 +147,7 @@ class HomeWizardPowerSensor(HomeWizardCloudSensor):
 class HomeWizardPhasePowerSensor(HomeWizardCloudSensor):
     """Active power per phase."""
 
-    _attr_name = "Vermogen fase 1"
+    _attr_translation_key = "power_phase"
     _attr_native_unit_of_measurement = UnitOfPower.WATT
     _attr_device_class = SensorDeviceClass.POWER
     _attr_state_class = SensorStateClass.MEASUREMENT
@@ -158,7 +158,7 @@ class HomeWizardPhasePowerSensor(HomeWizardCloudSensor):
         super().__init__(coordinator, entry)
         self._phase = phase
         self._key = key
-        self._attr_name = f"Vermogen fase {phase}"
+        self._attr_translation_placeholders = {"phase": str(phase)}
         self._attr_unique_id = f"{entry.entry_id}_power_l{phase}"
 
     @property
@@ -170,7 +170,7 @@ class HomeWizardPhasePowerSensor(HomeWizardCloudSensor):
 class HomeWizardAveragePowerSensor(HomeWizardCloudSensor):
     """Average active power."""
 
-    _attr_name = "Gemiddeld vermogen"
+    _attr_translation_key = "average_power"
     _attr_native_unit_of_measurement = UnitOfPower.WATT
     _attr_device_class = SensorDeviceClass.POWER
     _attr_state_class = SensorStateClass.MEASUREMENT
@@ -193,7 +193,7 @@ class HomeWizardAveragePowerSensor(HomeWizardCloudSensor):
 class HomeWizardVoltageSensor(HomeWizardCloudSensor):
     """Voltage per phase."""
 
-    _attr_name = "Spanning fase 1"
+    _attr_translation_key = "voltage_phase"
     _attr_native_unit_of_measurement = UnitOfElectricPotential.VOLT
     _attr_device_class = SensorDeviceClass.VOLTAGE
     _attr_state_class = SensorStateClass.MEASUREMENT
@@ -204,7 +204,7 @@ class HomeWizardVoltageSensor(HomeWizardCloudSensor):
         super().__init__(coordinator, entry)
         self._phase = phase
         self._key = key
-        self._attr_name = f"Spanning fase {phase}"
+        self._attr_translation_placeholders = {"phase": str(phase)}
         self._attr_unique_id = f"{entry.entry_id}_voltage_l{phase}"
 
     @property
@@ -216,7 +216,7 @@ class HomeWizardVoltageSensor(HomeWizardCloudSensor):
 class HomeWizardCurrentSensor(HomeWizardCloudSensor):
     """Current per phase."""
 
-    _attr_name = "Stroom fase 1"
+    _attr_translation_key = "current_phase"
     _attr_native_unit_of_measurement = UnitOfElectricCurrent.AMPERE
     _attr_device_class = SensorDeviceClass.CURRENT
     _attr_state_class = SensorStateClass.MEASUREMENT
@@ -227,7 +227,7 @@ class HomeWizardCurrentSensor(HomeWizardCloudSensor):
         super().__init__(coordinator, entry)
         self._phase = phase
         self._key = key
-        self._attr_name = f"Stroom fase {phase}"
+        self._attr_translation_placeholders = {"phase": str(phase)}
         self._attr_unique_id = f"{entry.entry_id}_current_l{phase}"
 
     @property
@@ -242,7 +242,6 @@ class HomeWizardCurrentSensor(HomeWizardCloudSensor):
 class HomeWizardImportSensor(HomeWizardCloudSensor):
     """Energy imported or exported for one tariff."""
 
-    _attr_name = "Import energie"
     _attr_native_unit_of_measurement = UnitOfEnergy.KILO_WATT_HOUR
     _attr_device_class = SensorDeviceClass.ENERGY
     _attr_state_class = SensorStateClass.TOTAL_INCREASING
@@ -261,8 +260,8 @@ class HomeWizardImportSensor(HomeWizardCloudSensor):
         self._key = key
         self._tariff = tariff
         self._is_export = is_export
-        direction = "Export" if is_export else "Import"
-        self._attr_name = f"{direction} energie tarief {tariff}"
+        self._attr_translation_key = "export_energy" if is_export else "import_energy"
+        self._attr_translation_placeholders = {"tariff": str(tariff)}
         self._attr_icon = (
             "mdi:transmission-tower-export"
             if is_export
@@ -290,7 +289,7 @@ class HomeWizardImportSensor(HomeWizardCloudSensor):
 class HomeWizardTariffSensor(HomeWizardCloudSensor):
     """Current active tariff."""
 
-    _attr_name = "Actief tarief"
+    _attr_translation_key = "active_tariff"
     _attr_icon = "mdi:counter"
 
     def __init__(self, coordinator, entry) -> None:
@@ -308,7 +307,7 @@ class HomeWizardTariffSensor(HomeWizardCloudSensor):
 class HomeWizardGasSensor(HomeWizardCloudSensor):
     """Total gas consumption."""
 
-    _attr_name = "Gas"
+    _attr_translation_key = "gas"
     _attr_native_unit_of_measurement = UnitOfVolume.CUBIC_METERS
     _attr_device_class = SensorDeviceClass.GAS
     _attr_state_class = SensorStateClass.TOTAL_INCREASING
@@ -330,7 +329,7 @@ class HomeWizardGasTimestampSensor(HomeWizardCloudSensor):
 
     _attr_entity_category = EntityCategory.DIAGNOSTIC
 
-    _attr_name = "Gas laatst gelezen"
+    _attr_translation_key = "gas_timestamp"
     _attr_icon = "mdi:clock-outline"
 
     def __init__(self, coordinator, entry) -> None:
@@ -352,7 +351,7 @@ class HomeWizardPeakSensor(HomeWizardCloudSensor):
 
     _attr_entity_category = EntityCategory.DIAGNOSTIC
 
-    _attr_name = "Maandpiek"
+    _attr_translation_key = "monthly_peak"
     _attr_native_unit_of_measurement = UnitOfPower.WATT
     _attr_device_class = SensorDeviceClass.POWER
     _attr_state_class = SensorStateClass.MEASUREMENT
@@ -381,7 +380,7 @@ class HomeWizardPowerFailSensor(HomeWizardCloudSensor):
 
     _attr_entity_category = EntityCategory.DIAGNOSTIC
 
-    _attr_name = "Stroomuitval"
+    _attr_translation_key = "power_fail"
     _attr_icon = "mdi:power-plug-off"
 
     def __init__(self, coordinator, entry) -> None:
@@ -412,7 +411,7 @@ class HomeWizardOnlineSensor(HomeWizardCloudSensor):
 
     _attr_entity_category = EntityCategory.DIAGNOSTIC
 
-    _attr_name = "Online"
+    _attr_translation_key = "online"
     _attr_icon = "mdi:cloud-check"
 
     def __init__(self, coordinator, entry) -> None:
@@ -434,7 +433,7 @@ class HomeWizardWifiSensor(HomeWizardCloudSensor):
 
     _attr_entity_category = EntityCategory.DIAGNOSTIC
 
-    _attr_name = "WiFi signaal"
+    _attr_translation_key = "wifi_strength"
     _attr_native_unit_of_measurement = PERCENTAGE
     _attr_state_class = SensorStateClass.MEASUREMENT
     _attr_icon = "mdi:wifi"
