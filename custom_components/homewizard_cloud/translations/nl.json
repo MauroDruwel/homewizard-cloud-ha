@@ -33,5 +33,59 @@
       "already_configured": "Dit apparaat is al geconfigureerd.",
       "reauth_successful": "Herauthenticatie geslaagd."
     }
+  },
+  "entity": {
+    "binary_sensor": {
+      "websocket_connection": {
+        "name": "WebSocket verbinding"
+      }
+    },
+    "sensor": {
+      "realtime_power": {
+        "name": "Live vermogen"
+      },
+      "power": {
+        "name": "Vermogen"
+      },
+      "power_phase": {
+        "name": "Vermogen fase {phase}"
+      },
+      "average_power": {
+        "name": "Gemiddeld vermogen"
+      },
+      "voltage_phase": {
+        "name": "Spanning fase {phase}"
+      },
+      "current_phase": {
+        "name": "Stroom fase {phase}"
+      },
+      "import_energy": {
+        "name": "Import energie tarief {tariff}"
+      },
+      "export_energy": {
+        "name": "Export energie tarief {tariff}"
+      },
+      "active_tariff": {
+        "name": "Actief tarief"
+      },
+      "gas": {
+        "name": "Gas"
+      },
+      "gas_timestamp": {
+        "name": "Gas laatst gelezen"
+      },
+      "monthly_peak": {
+        "name": "Maandpiek"
+      },
+      "power_fail": {
+        "name": "Stroomuitval"
+      },
+      "online": {
+        "name": "Online"
+      },
+      "wifi_strength": {
+        "name": "WiFi signaal"
+      }
+    }
   }
 }

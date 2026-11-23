@@ -35,7 +35,7 @@ class HomeWizardConnectionSensor(CoordinatorEntity, BinarySensorEntity):
 
     _attr_has_entity_name = True
     _attr_entity_category = EntityCategory.DIAGNOSTIC
-    _attr_name = "WebSocket verbinding"
+    _attr_translation_key = "websocket_connection"
     _attr_device_class = BinarySensorDeviceClass.CONNECTIVITY
     _attr_icon = "mdi:connection"
 

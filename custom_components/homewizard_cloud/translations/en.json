@@ -33,5 +33,59 @@
       "already_configured": "This device is already configured.",
       "reauth_successful": "Re-authentication was successful."
     }
+  },
+  "entity": {
+    "binary_sensor": {
+      "websocket_connection": {
+        "name": "WebSocket connection"
+      }
+    },
+    "sensor": {
+      "realtime_power": {
+        "name": "Live power"
+      },
+      "power": {
+        "name": "Power"
+      },
+      "power_phase": {
+        "name": "Power phase {phase}"
+      },
+      "average_power": {
+        "name": "Average power"
+      },
+      "voltage_phase": {
+        "name": "Voltage phase {phase}"
+      },
+      "current_phase": {
+        "name": "Current phase {phase}"
+      },
+      "import_energy": {
+        "name": "Import energy tariff {tariff}"
+      },
+      "export_energy": {
+        "name": "Export energy tariff {tariff}"
+      },
+      "active_tariff": {
+        "name": "Active tariff"
+      },
+      "gas": {
+        "name": "Gas"
+      },
+      "gas_timestamp": {
+        "name": "Gas last read"
+      },
+      "monthly_peak": {
+        "name": "Monthly peak"
+      },
+      "power_fail": {
+        "name": "Power failures"
+      },
+      "online": {
+        "name": "Online"
+      },
+      "wifi_strength": {
+        "name": "WiFi signal"
+      }
+    }
   }
 }
