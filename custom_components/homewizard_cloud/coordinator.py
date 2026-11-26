@@ -106,8 +106,11 @@ class HomeWizardCloudCoordinator(DataUpdateCoordinator[dict]):
                 )
             except Exception as err:
                 _LOGGER.debug("Listen stream ended: %s", err)
+            finally:
+                self.client.close()
 
-        self._listen_task = self.hass.async_create_task(
+        self._listen_task = self.entry.async_create_background_task(
+            self.hass,
             _run_listen(),
             name=f"{DOMAIN}_listen_{self.device_id}",
         )
